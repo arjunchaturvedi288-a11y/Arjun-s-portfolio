@@ -1,0 +1,709 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Arjun Chaturvedi — Frontend Developer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #EEF3F8;
+    --bg-line: #D3E0EC;
+    --panel: #FFFFFF;
+    --ink: #12233D;
+    --ink-soft: #4C6079;
+    --accent: #FF5F3E;
+    --accent-soft: #FFE4DB;
+    --teal: #1B9C96;
+    --border: #C4D3E2;
+
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body: 'Inter', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+
+    --maxw: 1080px;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background:
+      linear-gradient(var(--bg-line) 1px, transparent 1px) 0 0/40px 40px,
+      linear-gradient(90deg, var(--bg-line) 1px, transparent 1px) 0 0/40px 40px,
+      var(--bg);
+    color: var(--ink);
+    font-family: var(--font-body);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  a{ color:inherit; text-decoration:none; }
+  ul{ list-style:none; }
+  img{ max-width:100%; display:block; }
+
+  .wrap{ max-width: var(--maxw); margin:0 auto; padding: 0 28px; }
+
+  ::selection{ background: var(--accent); color:#fff; }
+
+  /* ---------- Nav ---------- */
+  header.nav{
+    position: sticky; top:0; z-index: 50;
+    backdrop-filter: blur(10px);
+    background: rgba(238,243,248,0.82);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner{
+    max-width: var(--maxw); margin:0 auto; padding: 16px 28px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .logo{
+    font-family: var(--font-mono);
+    font-weight:600; font-size:15px; letter-spacing:0.5px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .logo .dot{
+    width:8px; height:8px; border-radius:50%;
+    background: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+  nav.links{ display:flex; gap: 28px; }
+  nav.links a{
+    font-family: var(--font-mono);
+    font-size: 13px;
+    color: var(--ink-soft);
+    position: relative;
+    padding: 4px 2px;
+    transition: color .2s ease;
+  }
+  nav.links a::before{
+    content: attr(data-index);
+    color: var(--accent);
+    margin-right: 6px;
+  }
+  nav.links a:hover, nav.links a.active{ color: var(--ink); }
+  nav.links a::after{
+    content:"";
+    position:absolute; left:0; bottom:-3px;
+    width:0%; height:1.5px; background: var(--accent);
+    transition: width .25s ease;
+  }
+  nav.links a:hover::after, nav.links a.active::after{ width:100%; }
+
+  .menu-btn{ display:none; }
+
+  /* ---------- Section scaffolding ---------- */
+  section{ padding: 96px 0; position:relative; }
+  .section-head{
+    display:flex; align-items:center; gap:14px; margin-bottom: 44px;
+  }
+  .section-head .tick{
+    font-family: var(--font-mono); font-size: 12px; color: var(--accent);
+    border:1px solid var(--accent); border-radius: 4px;
+    padding: 3px 8px;
+  }
+  .section-head h2{
+    font-family: var(--font-display); font-size: 30px; font-weight:600;
+    letter-spacing: -0.3px;
+  }
+  .section-head .rule{
+    flex:1; height:1px;
+    background: repeating-linear-gradient(90deg, var(--border) 0 6px, transparent 6px 12px);
+  }
+
+  .reveal{
+    opacity:0; transform: translateY(24px);
+    transition: opacity .6s ease, transform .6s ease;
+  }
+  .reveal.in{ opacity:1; transform:none; }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding-top: 120px;
+    padding-bottom: 80px;
+  }
+  .hero .eyebrow{
+    font-family: var(--font-mono);
+    font-size: 13px; color: var(--teal);
+    display:flex; align-items:center; gap:10px;
+    margin-bottom: 22px;
+  }
+  .eyebrow .cursor{
+    display:inline-block; width:8px; height:16px; background: var(--teal);
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0; } }
+
+  .hero h1{
+    font-family: var(--font-display);
+    font-size: clamp(40px, 7vw, 72px);
+    font-weight: 700;
+    line-height: 1.05;
+    letter-spacing: -1.5px;
+    max-width: 780px;
+  }
+  .hero h1 .accent{ color: var(--accent); }
+
+  .hero p.lead{
+    margin-top: 24px;
+    max-width: 560px;
+    font-size: 17px;
+    color: var(--ink-soft);
+  }
+
+  .hero .cta-row{
+    margin-top: 36px;
+    display:flex; gap:16px; flex-wrap:wrap;
+    align-items:center;
+  }
+
+  .btn{
+    font-family: var(--font-mono);
+    font-size: 14px;
+    padding: 13px 22px;
+    border-radius: 8px;
+    border: 1.5px solid var(--ink);
+    display:inline-flex; align-items:center; gap:8px;
+    transition: transform .2s ease, box-shadow .2s ease, background .2s ease, color .2s ease;
+  }
+  .btn.primary{ background: var(--ink); color:#fff; }
+  .btn.primary:hover{ transform: translateY(-2px); box-shadow: 0 10px 20px -8px rgba(18,35,61,0.5); }
+  .btn.ghost{ background: transparent; color: var(--ink); }
+  .btn.ghost:hover{ background: var(--panel); transform: translateY(-2px); box-shadow: 0 10px 20px -10px rgba(18,35,61,0.25); }
+
+  .hero .coords{
+    margin-top: 56px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-soft);
+    display:flex; gap: 28px; flex-wrap:wrap;
+  }
+  .hero .coords b{ color: var(--ink); }
+
+  /* ---------- About ---------- */
+  .about-grid{
+    display:grid; grid-template-columns: 1.3fr 1fr; gap: 48px; align-items:start;
+  }
+  .about-grid p{ color: var(--ink-soft); font-size: 16px; margin-bottom: 16px; }
+  .about-grid p:last-child{ margin-bottom:0; }
+
+  .info-card{
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 24px;
+  }
+  .info-card dl{ display:grid; grid-template-columns: auto 1fr; gap: 10px 16px; }
+  .info-card dt{
+    font-family: var(--font-mono); font-size:12px; color: var(--accent);
+    text-transform: uppercase; letter-spacing: 0.5px;
+    padding-top: 2px;
+  }
+  .info-card dd{ font-size: 14px; color: var(--ink); }
+
+  /* ---------- Skills ---------- */
+  .skill-groups{
+    display:grid; grid-template-columns: repeat(3, 1fr); gap: 20px;
+  }
+  .skill-card{
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px;
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  }
+  .skill-card:hover{
+    transform: translateY(-4px);
+    box-shadow: 0 16px 30px -14px rgba(18,35,61,0.25);
+    border-color: var(--accent);
+  }
+  .skill-card h3{
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    margin-bottom: 14px;
+  }
+  .chips{ display:flex; flex-wrap:wrap; gap: 8px; }
+  .chip{
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 6px 10px;
+    transition: background .2s ease, color .2s ease, border-color .2s ease;
+  }
+  .chip:hover{ background: var(--accent); color:#fff; border-color: var(--accent); }
+
+  /* ---------- Projects ---------- */
+  .projects{ display:grid; gap: 24px; }
+  .project-card{
+    position:relative;
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 30px;
+    overflow:hidden;
+  }
+  .project-card .corner{
+    position:absolute; width:22px; height:22px;
+    border: 2px solid var(--accent);
+    opacity:0; transition: opacity .25s ease, transform .25s ease;
+  }
+  .project-card .c-tl{ top:10px; left:10px; border-right:none; border-bottom:none; transform: translate(6px,6px); }
+  .project-card .c-tr{ top:10px; right:10px; border-left:none; border-bottom:none; transform: translate(-6px,6px); }
+  .project-card .c-bl{ bottom:10px; left:10px; border-right:none; border-top:none; transform: translate(6px,-6px); }
+  .project-card .c-br{ bottom:10px; right:10px; border-left:none; border-top:none; transform: translate(-6px,-6px); }
+  .project-card:hover .corner{ opacity:1; transform: translate(0,0); }
+
+  .project-top{
+    display:flex; justify-content:space-between; align-items:flex-start; gap: 20px; flex-wrap:wrap;
+    margin-bottom: 14px;
+  }
+  .project-top h3{
+    font-family: var(--font-display); font-size: 22px; font-weight:600;
+  }
+  .project-top .link{
+    font-family: var(--font-mono); font-size: 12.5px; color: var(--teal);
+    border: 1px solid var(--teal); border-radius: 6px; padding: 6px 12px;
+    display:inline-flex; align-items:center; gap:6px;
+    transition: background .2s ease, color .2s ease;
+  }
+  .project-top .link:hover{ background: var(--teal); color:#fff; }
+
+  .project-card ul{ margin: 14px 0; }
+  .project-card ul li{
+    position:relative; padding-left: 20px; margin-bottom:8px;
+    color: var(--ink-soft); font-size: 14.5px;
+  }
+  .project-card ul li::before{
+    content:"▸"; position:absolute; left:0; color: var(--accent);
+  }
+  .project-tags{ display:flex; gap:8px; flex-wrap:wrap; margin-top: 14px; }
+  .project-tags .chip{ background: var(--bg); }
+
+  /* ---------- Resume ---------- */
+  .resume-panel{
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 40px;
+    display:flex; align-items:center; justify-content:space-between; gap: 30px; flex-wrap:wrap;
+  }
+  .resume-panel .rp-text h3{
+    font-family: var(--font-display); font-size: 22px; margin-bottom: 8px;
+  }
+  .resume-panel .rp-text p{ color: var(--ink-soft); font-size: 14.5px; max-width: 420px; }
+
+  /* ---------- Contact ---------- */
+  .contact-grid{
+    display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr));
+    gap: 18px;
+  }
+  .contact-card{
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 22px;
+    display:flex; flex-direction:column; gap: 8px;
+    transition: transform .2s ease, box-shadow .2s ease;
+  }
+  .contact-card:hover{ transform: translateY(-4px); box-shadow: 0 16px 30px -16px rgba(18,35,61,0.3); }
+  .contact-card .label{
+    font-family: var(--font-mono); font-size: 11px; color: var(--accent);
+    text-transform: uppercase; letter-spacing:0.6px;
+  }
+  .contact-card .value{ font-size: 15px; font-weight:500; word-break: break-word; }
+
+  footer{
+    padding: 40px 0 60px;
+    text-align:center;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  @media (max-width: 860px){
+    .about-grid{ grid-template-columns: 1fr; }
+    .skill-groups{ grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px){
+    nav.links{ display:none; }
+    .skill-groups{ grid-template-columns: 1fr; }
+    section{ padding: 64px 0; }
+    .resume-panel{ flex-direction:column; align-items:flex-start; }
+  }
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <div class="logo"><span class="dot"></span>ARJUN.DEV</div>
+    <nav class="links" id="navLinks">
+      <a href="#about" data-index="01">about</a>
+      <a href="#skills" data-index="02">skills</a>
+      <a href="#projects" data-index="03">projects</a>
+      <a href="#resume" data-index="04">resume</a>
+      <a href="#contact" data-index="05">contact</a>
+    </nav>
+  </div>
+</header>
+
+<main class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="eyebrow"><span class="cursor"></span>frontend developer / building for the web</div>
+    <h1>Arjun Chaturvedi <br> crafts fast, clean <span class="accent">interfaces.</span></h1>
+    <p class="lead">JavaScript, React and modern CSS in service of interfaces that feel instant, look considered, and hold up on every screen.</p>
+    <div class="cta-row">
+      <a href="#projects" class="btn primary">View projects →</a>
+      <a href="#contact" class="btn ghost">Get in touch</a>
+    </div>
+    <div class="coords">
+      <span>LOC <b>Bareilly, IN</b></span>
+      <span>STACK <b>JS · React · Node</b></span>
+      <span>STATUS <b>Open to work</b></span>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="section-head reveal">
+      <span class="tick">01</span>
+      <h2>About</h2>
+      <span class="rule"></span>
+    </div>
+    <div class="about-grid reveal">
+      <div>
+        <p>I'm a frontend engineer with a deep focus on JavaScript, HTML5 and CSS3 — building component-based interfaces in React that stay fast, accessible and consistent across every browser and screen size.</p>
+        <p>My work leans mobile-first: responsive layouts, clean UI patterns, and RESTful API integration, all shaped by agile collaboration and a habit of optimizing for real-world performance rather than just passing a Lighthouse score.</p>
+        <p>Currently pursuing a B.Tech in Computer Science Engineering, and always looking for the next interface worth getting right.</p>
+      </div>
+      <div class="info-card">
+        <dl>
+          <dt>Base</dt><dd>Bareilly, India</dd>
+          <dt>Focus</dt><dd>Frontend Engineering</dd>
+          <dt>Education</dt><dd>B.Tech, CSE — 2023 to present</dd>
+          <dt>Core stack</dt><dd>JavaScript, React.js, Node.js</dd>
+          <dt>Databases</dt><dd>MongoDB, MySQL</dd>
+        </dl>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section id="skills">
+    <div class="section-head reveal">
+      <span class="tick">02</span>
+      <h2>Skills</h2>
+      <span class="rule"></span>
+    </div>
+    <div class="skill-groups reveal">
+      <div class="skill-card">
+        <h3>Languages</h3>
+        <div class="chips">
+          <span class="chip">C</span>
+          <span class="chip">Python</span>
+          <span class="chip">JavaScript</span>
+          <span class="chip">SQL</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Frontend</h3>
+        <div class="chips">
+          <span class="chip">HTML5</span>
+          <span class="chip">CSS3</span>
+          <span class="chip">Bootstrap</span>
+          <span class="chip">Tailwind CSS</span>
+          <span class="chip">Responsive Design</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Backend</h3>
+        <div class="chips">
+          <span class="chip">Node.js</span>
+          <span class="chip">Express.js</span>
+          <span class="chip">REST APIs</span>
+          <span class="chip">DOM Manipulation</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Data &amp; Version Control</h3>
+        <div class="chips">
+          <span class="chip">MongoDB</span>
+          <span class="chip">MySQL</span>
+          <span class="chip">Git</span>
+          <span class="chip">GitHub</span>
+        </div>
+      </div>
+      <div class="skill-card">
+        <h3>Strengths</h3>
+        <div class="chips">
+          <span class="chip">Problem solving</span>
+          <span class="chip">Self-motivated</span>
+          <span class="chip">Team &amp; solo work</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section id="projects">
+    <div class="section-head reveal">
+      <span class="tick">03</span>
+      <h2>Projects</h2>
+      <span class="rule"></span>
+    </div>
+    <div class="projects reveal">
+
+      <article class="project-card">
+        <span class="corner c-tl"></span><span class="corner c-tr"></span>
+        <span class="corner c-bl"></span><span class="corner c-br"></span>
+        <div class="project-top">
+          <h3>Community_Manager</h3>
+          <a href="https://github.com/arjunchaturvedi288-a11y/Community_Manager" class="link">View project ↗</a>
+        </div>
+        <ul>
+          <li>Architected and deployed a high-performance, mobile-first student dashboard using React.js and Tailwind CSS, achieving full responsiveness and cross-browser compatibility across device sizes.</li>
+          <li>Engineered interactive UI components and dynamic state management with modern JavaScript (ES6+), reducing interaction latency and improving overall UX.</li>
+          <li>Optimized frontend performance and asset loading for faster page loads, adhering to semantic HTML5 and clean UI/UX standards.</li>
+          <li>Built modular, reusable component structures for maintainability and seamless future feature integration.</li>
+        </ul>
+        <div class="project-tags">
+          <span class="chip">HTML5</span>
+          <span class="chip">CSS3</span>
+          <span class="chip">JavaScript</span>
+          <span class="chip">React.js</span>
+          <span class="chip">Tailwind CSS</span>
+        </div>
+      </article>
+
+      <article class="project-card">
+        <span class="corner c-tl"></span><span class="corner c-tr"></span>
+        <span class="corner c-bl"></span><span class="corner c-br"></span>
+        <div class="project-top">
+          <h3>Personal Portfolio Website</h3>
+          <a href="" class="link">View project ↗</a>
+        </div>
+        <ul>
+          <li>Designed and developed a pixel-perfect personal portfolio using HTML5, CSS3 and JavaScript (ES6+), with fluid layouts to showcase engineering skills and live project links.</li>
+          <li>Built a mobile-first UI architecture with advanced media queries for consistent rendering across a wide range of viewports.</li>
+          <li>Audited bundle sizes to boost asset efficiency, minimizing overhead for faster initial render and smoother transitions.</li>
+          <li>Prioritized user-centric usability with clean typography, intuitive navigation and high-contrast accessibility.</li>
+        </ul>
+        <div class="project-tags">
+          <span class="chip">HTML5</span>
+          <span class="chip">CSS3</span>
+          <span class="chip">JavaScript</span>
+        </div>
+      </article>
+      <article class="project-card">
+        <span class="corner c-tl"></span><span class="corner c-tr"></span>
+        <span class="corner c-bl"></span><span class="corner c-br"></span>
+        <div class="project-top">
+          <h3>Responsive Image Gallery</h3>
+          <a href="https://github.com/arjunchaturvedi288-a11y/image-responsive" class="link">View project ↗</a>
+        </div>
+        <ul>
+     <li>Responsive image gallery built with pure HTML, CSS, and JavaScript.</li>
+<li>Fully responsive design that adapts seamlessly to all screen sizes.</li>
+<li>Smooth image transitions and interactive hover effects.</li>
+<li>Clean, modern, and user-friendly interface for an enhanced viewing experience.</li>
+<li>Fast-loading gallery with optimized performance.</li>
+<li>Lightweight project with no external libraries or frameworks.</li>
+<li>Organized and maintainable code for easy customization.</li>
+<li>Cross-browser compatibility for a consistent experience.</li>
+<li>Elegant layout showcasing images in a visually appealing grid.</li>
+<li>Perfect for photography portfolios, travel albums, and creative showcases.</li>
+<li>Built from scratch using only HTML, CSS, and vanilla JavaScript.</li>
+<li>Designed with a mobile-first approach for maximum accessibility.</li>
+        </ul>
+        <div class="project-tags">
+          <span class="chip">HTML5</span>
+          <span class="chip">CSS3</span>
+          <span class="chip">JavaScript</span>
+        </div>
+        
+      </article>
+
+      <article class="project-card">
+        <span class="corner c-tl"></span><span class="corner c-tr"></span>
+        <span class="corner c-bl"></span><span class="corner c-br"></span>
+        <div class="project-top">
+          <h3>Music Player</h3>
+          <a href="https://github.com/arjunchaturvedi288-a11y/music-player" class="link">View project ↗</a>
+        </div>
+        <ul>
+         <li>Modern music player built using pure HTML, CSS, and JavaScript.</li>
+<li>Play, pause, next, and previous track controls for seamless playback.</li>
+<li>Interactive progress bar with real-time song tracking.</li>
+<li>Responsive design optimized for desktop, tablet, and mobile devices.</li>
+<li>Clean and intuitive user interface for an enjoyable listening experience.</li>
+<li>Dynamic song information including title, artist, and album artwork.</li>
+<li>Volume control and playback management for a personalized experience.</li>
+<li>Lightweight application with no external frameworks or libraries.</li>
+<li>Smooth animations and transitions for a polished user experience.</li>
+<li>Well-structured and maintainable code for easy customization.</li>
+<li>Fast performance powered by vanilla JavaScript.</li>
+<li>Cross-browser compatibility for consistent functionality across modern browsers.</li>
+        </ul>
+        <div class="project-tags">
+          <span class="chip">HTML5</span>
+          <span class="chip">CSS3</span>
+          <span class="chip">JavaScript</span>
+        </div>
+        
+      </article>
+
+     <article class="project-card">
+        <span class="corner c-tl"></span><span class="corner c-tr"></span>
+        <span class="corner c-bl"></span><span class="corner c-br"></span>
+        <div class="project-top">
+          <h3>CALCULATOR</h3>
+          <a href="https://github.com/arjunchaturvedi288-a11y/Calculator" class="link">View project ↗</a>
+        </div>
+        <ul>
+         <li>Modern calculator built using pure HTML, CSS, and JavaScript.</li>
+<li>Performs fast and accurate basic arithmetic calculations.</li>
+<li>Supports addition, subtraction, multiplication, and division operations.</li>
+<li>Clean and intuitive interface designed for a smooth user experience.</li>
+<li>Responsive layout that works seamlessly across all devices.</li>
+<li>Interactive button animations and hover effects for enhanced usability.</li>
+<li>Real-time display updates with instant calculation results.</li>
+<li>Error handling for invalid mathematical operations.</li>
+<li>Lightweight application with no external libraries or frameworks.</li>
+<li>Well-structured and maintainable code for easy customization.</li>
+<li>Built entirely with HTML, CSS, and vanilla JavaScript.</li>
+<li>Cross-browser compatibility for consistent performance on modern browsers.</li>
+        </ul>
+        <div class="project-tags">
+          <span class="chip">HTML5</span>
+          <span class="chip">CSS3</span>
+          <span class="chip">JavaScript</span>
+        </div>
+        
+      </article>
+
+
+ <article class="project-card">
+        <span class="corner c-tl"></span><span class="corner c-tr"></span>
+        <span class="corner c-bl"></span><span class="corner c-br"></span>
+        <div class="project-top">
+          <h3>DRAGON GAME</h3>
+          <a href="" class="link">View project ↗</a>
+        </div>
+        <ul>
+<li>Classic Dragon Adventure game built using pure HTML, CSS, and JavaScript.</li>
+<li>Engage in thrilling battles against powerful dragons and enemies.</li>
+<li>Explore different locations and unlock exciting adventures.</li>
+<li>Collect gold, upgrade weapons, and improve your character's strength.</li>
+<li>Interactive combat system with attack, dodge, and heal mechanics.</li>
+<li>Dynamic gameplay with multiple choices and strategic decision-making.</li>
+<li>Responsive design for a smooth gaming experience on all devices.</li>
+<li>Lightweight game with no external libraries or frameworks.</li>
+<li>Smooth animations and immersive visual effects for enhanced gameplay.</li>
+<li>Well-structured and maintainable code for easy customization and expansion.</li>
+<li>Built entirely with HTML, CSS, and vanilla JavaScript.</li>
+<li>Cross-browser compatibility for consistent performance across modern browsers.</li>
+        </ul>
+        <div class="project-tags">
+          <span class="chip">HTML5</span>
+          <span class="chip">CSS3</span>
+          <span class="chip">JavaScript</span>
+        </div>
+        
+ 
+
+  
+  </section>
+
+  <!-- RESUME -->
+  <section id="resume">
+    <div class="section-head reveal">
+      <span class="tick">04</span>
+      <h2>Resume</h2>
+      <span class="rule"></span>
+    </div>
+    <div class="resume-panel reveal">
+      <div class="rp-text">
+        <h3>Want the full picture?</h3>
+        <p>Download the complete resume for education, skills and project details in one PDF.</p>
+      </div>
+      <a href="Arjun_Frontend_Developer.pdf" download class="btn primary">Download resume ↓</a>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="section-head reveal">
+      <span class="tick">05</span>
+      <h2>Contact</h2>
+      <span class="rule"></span>
+    </div>
+    <div class="contact-grid reveal">
+      <a class="contact-card" href="mailto:arjunchaturvedi288@gmail.com">
+        <span class="label">Email</span>
+        <span class="value">arjunchaturvedi288@gmail.com</span>
+      </a>
+      <a class="contact-card" href="tel:+918953049144">
+        <span class="label">Phone</span>
+        <span class="value">+91 8953049144</span>
+      </a>
+      <a class="contact-card" href="https://www.linkedin.com/in/arjun-chaturvedi-348b572a7 " target="_blank" rel="noopener">
+        <span class="label">LinkedIn</span>
+        <span class="value">Arjun Chaturvedi</span>
+      </a>
+      <a class="contact-card" href="https://github.com/arjunchaturvedi288-a11y" target="_blank" rel="noopener">
+        <span class="label">GitHub</span>
+        <span class="value">Arjun's GitHub profile</span>
+      </a>
+      <div class="contact-card">
+        <span class="label">Location</span>
+        <span class="value">GHAZIABAD, India</span>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  designed &amp; built by Arjun Chaturvedi — © 2026
+</footer>
+
+<script>
+  // Scroll-reveal animation
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting){
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach(el => io.observe(el));
+
+  // Active nav link on scroll
+  const sections = document.querySelectorAll('main section[id]');
+  const navLinks = document.querySelectorAll('nav.links a');
+  const navObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      const link = document.querySelector(`nav.links a[href="#${entry.target.id}"]`);
+      if (!link) return;
+      if (entry.isIntersecting){
+        navLinks.forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      }
+    });
+  }, { threshold: 0.4 });
+  sections.forEach(s => navObserver.observe(s));
+</script>
+
+</body>
+</html>
